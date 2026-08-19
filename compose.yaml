@@ -1,0 +1,12 @@
+name: lucky-lab
+
+include:
+  - ./dozzle/compose.yaml
+  - ./photoprism/compose.yaml
+  - ./lucky-radio/lucky-mpd/compose.yaml
+  - ./lucky-radio/lucky-radio-web/compose.yaml
+  - ./lucky-radio/lucky-radio-api/compose.yaml
+  - ./nginx/compose.yaml
+
+networks:
+  proxy:

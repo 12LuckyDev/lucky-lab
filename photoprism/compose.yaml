@@ -1,0 +1,72 @@
+services:
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism
+
+    depends_on:
+      - mariadb
+
+    environment:
+      PHOTOPRISM_ADMIN_USER: ${PHOTOPRISM_ADMIN_USER}
+      PHOTOPRISM_ADMIN_PASSWORD: ${PHOTOPRISM_ADMIN_PASSWORD}
+
+      PHOTOPRISM_DATABASE_DRIVER: mysql
+      PHOTOPRISM_DATABASE_SERVER: mariadb:3306
+      PHOTOPRISM_DATABASE_NAME: ${MYSQL_DATABASE}
+      PHOTOPRISM_DATABASE_USER: ${MYSQL_USER}
+      PHOTOPRISM_DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+
+      PHOTOPRISM_DISABLE_FACES: "true"
+      PHOTOPRISM_DISABLE_CLASSIFICATION: "true"
+      PHOTOPRISM_DISABLE_NSFW: "true"
+      PHOTOPRISM_DISABLE_PLACES: "true"
+
+      PHOTOPRISM_CORS_ORIGIN: "http://localhost:8100"
+      PHOTOPRISM_CORS_HEADERS: "*"
+      PHOTOPRISM_CORS_METHODS: "*"
+      PHOTOPRISM_INDEX_MEDIA_TYPES: "image"
+
+      PHOTOPRISM_SITE_URL: "http://lucky-pi/prism/"
+
+    volumes:
+      - ../data/photoprism/storage:/photoprism/storage
+      - ../data/photoprism/photos:/photoprism/originals
+
+    networks:
+      - photoprism-internal
+      - proxy
+
+    restart: unless-stopped
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mariadb:
+    image: mariadb:11
+    container_name: photoprism-db
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    volumes:
+      - ../data/photoprism/database:/var/lib/mysql
+
+    restart: unless-stopped
+
+    networks:
+      - photoprism-internal
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  photoprism-internal:

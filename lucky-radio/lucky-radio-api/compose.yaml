@@ -1,0 +1,34 @@
+services:
+  lucky-radio-api:
+    image: lucky-radio-api:latest
+
+    container_name: lucky-radio-api
+
+    restart: unless-stopped
+
+    depends_on:
+      - lucky-mpd
+
+    environment:
+      NODE_ENV: production
+      MPD_HOST: lucky-mpd
+      MPD_PORT: 6600
+      FAV_STATIONS_JSON: "[{\"name\":\"antyradio\",\"url\":\"https://an02.cdn.eurozet.pl/ant-web.mp3\"},{\"name\":\"eska rock\",\"url\":\"https://ic2.smcdn.pl/5380-1.mp3\"}]"
+
+    volumes:
+      - ../../data/radio/data:/app/data
+
+    networks: proxy
+
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:3000/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

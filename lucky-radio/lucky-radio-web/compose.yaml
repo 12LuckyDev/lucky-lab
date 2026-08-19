@@ -1,0 +1,19 @@
+services:
+  lucky-radio-web:
+    image: lucky-radio-web:latest
+
+    container_name: lucky-radio-web
+
+    environment:
+      API_URL: /radio-api
+
+    restart: unless-stopped
+
+    networks:
+      - proxy
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

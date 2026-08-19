@@ -1,0 +1,25 @@
+services:
+  lucky-mpd:
+    image: lucky-mpd:latest
+
+    container_name: lucky-mpd
+
+    restart: unless-stopped
+
+    devices:
+      - /dev/snd:/dev/snd
+
+    volumes:
+      - ../../data/radio/mpd:/var/lib/mpd
+
+    ports:
+      - "16600:6600" #usunąć 
+
+    networks:
+      - proxy
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

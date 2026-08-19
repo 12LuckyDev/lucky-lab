@@ -1,0 +1,17 @@
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+
+    container_name: dozzle
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    environment:
+      DOZZLE_FILTER: "label=com.docker.compose.project=lucky-lab"
+      DOZZLE_BASE: "/logs"
+
+    networks:
+      - proxy
+
+    restart: unless-stopped
