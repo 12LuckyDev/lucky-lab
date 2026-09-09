@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lucky.trippostcard",
+      "sha256_cert_fingerprints": [
+        "82:BE:67:78:AE:75:1F:D9:65:D9:F6:F0:58:E0:77:AF:74:82:5F:45:56:28:95:72:E2:3D:8C:8F:51:6A:87:04"
+      ]
+    }
+  }
+]
