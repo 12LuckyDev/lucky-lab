@@ -14,11 +14,13 @@ services:
       MPD_HOST: lucky-mpd
       MPD_PORT: 6600
       FAV_STATIONS_JSON: "[{\"name\":\"antyradio\",\"url\":\"https://an02.cdn.eurozet.pl/ant-web.mp3\"},{\"name\":\"eska rock\",\"url\":\"https://ic2.smcdn.pl/5380-1.mp3\"}]"
+      ADD_I_RADIO_PREFIX: true
 
     volumes:
       - ../../data/radio/data:/app/data
 
-    networks: proxy
+    networks:
+      - proxy
 
     healthcheck:
       test: [ "CMD", "wget", "-qO-", "http://localhost:3000/health" ]
